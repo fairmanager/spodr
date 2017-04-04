@@ -1,5 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Force Update" type="NodeJSConfigurationType" factoryName="Node.js" singleton="false" path-to-node="project" path-to-js-file="$PROJECT_DIR$/bin/spodr.js" application-parameters="update --force" working-dir="$PROJECT_DIR$/.testing">
-    <method />
-  </configuration>
-</component>
