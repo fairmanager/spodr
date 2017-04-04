@@ -1,7 +1,5 @@
 # IDE
-.idea/dbnavigator.xml
-.idea/deployment.xml
-.idea/workspace.xml
+.vscode/launch.json
 
 # NPM
 npm-debug.log*
