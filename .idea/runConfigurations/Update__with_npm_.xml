@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Update (with npm)" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" path-to-js-file="$PROJECT_DIR$/bin/spodr.js" application-parameters="update --npm" working-dir="$PROJECT_DIR$/.testing">
+  <configuration default="false" name="Update" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" path-to-js-file="$PROJECT_DIR$/bin/spodr.js" application-parameters="update --deps" working-dir="$PROJECT_DIR$/.testing">
     <EXTENSION ID="com.jetbrains.nodejs.remote.docker.NodeJSDockerRunConfigurationExtension">
       <option name="envVars">
         <list />
