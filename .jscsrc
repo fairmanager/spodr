@@ -12,7 +12,7 @@
 	"disallowOperatorBeforeLineBreak": [
 		"."
 	],
-	"disallowQuotedKeysInObjects": true,
+	"disallowQuotedKeysInObjects": false,
 	"disallowSpaceAfterKeywords": [
 		"if",
 		"for",
