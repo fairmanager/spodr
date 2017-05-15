@@ -4,7 +4,7 @@
   "description": "Manage multi-npm-module projects easily",
   "main": "lib/app.js",
   "scripts": {
-    "test": "eslint lib && jscs lib"
+    "test": "eslint lib"
   },
   "bin": {
     "spodr": "bin/spodr.js"
