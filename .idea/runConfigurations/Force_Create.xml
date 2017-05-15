@@ -1,5 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Force Create" type="NodeJSConfigurationType" factoryName="Node.js" singleton="true" path-to-node="project" path-to-js-file="$PROJECT_DIR$/bin/spodr.js" application-parameters="create --force" working-dir="$PROJECT_DIR$/.testing">
-    <method />
-  </configuration>
-</component>
