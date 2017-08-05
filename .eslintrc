@@ -62,7 +62,7 @@
 		// require the use of === and !==
 		"eqeqeq": 2,
 		// require for-in loops to include an if statement
-		"guard-for-in": 2,
+		"guard-for-in": 1,
 		// disallow the use of alert, confirm, and prompt
 		"no-alert": 2,
 		// disallow the use of arguments.caller or arguments.callee
@@ -194,7 +194,7 @@
 		// disallow initializing variables to undefined
 		"no-undef-init": 2,
 		// disallow the use of undefined as an identifier
-		"no-undefined": 2,
+		"no-undefined": 0,
 		// disallow unused variables
 		"no-unused-vars": [
 			1,
@@ -329,8 +329,7 @@
 			{
 				"beforeColon": true,
 				"afterColon": true,
-				"mode": "strict",
-				"align": "colon"
+				"mode": "minimum"
 			}
 		],
 		// enforce consistent spacing before and after keywords
@@ -344,8 +343,20 @@
 						"before": false,
 						"after": true
 					},
+					"const": {
+						"before": false,
+						"after": true
+					},
+					"do": {
+						"before": false,
+						"after": true
+					},
 					"else": {
 						"before": true,
+						"after": true
+					},
+					"let": {
+						"before": false,
 						"after": true
 					},
 					"return": {
@@ -579,7 +590,7 @@
 		// =================================================
 		// require braces around arrow function bodies
 		"arrow-body-style": [
-			2,
+			1,
 			"as-needed"
 		],
 		// require parentheses around arrow function arguments

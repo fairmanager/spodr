@@ -130,7 +130,7 @@
 			"ModuleSpecifierComma": 0,
 			"ModuleSpecifierOpeningBrace": 0,
 			"ObjectExpressionClosingBrace": ">=1",
-			"ObjectPatternClosingBrace": 0,
+			"ObjectPatternClosingBrace": 1,
 			"ObjectPatternComma": 0,
 			"ObjectPatternOpeningBrace": 0,
 			"Property": ">=1",
@@ -231,8 +231,8 @@
 			"ModuleSpecifierOpeningBrace": 0,
 			"ObjectExpressionOpeningBrace": ">=1",
 			"ObjectPatternClosingBrace": 0,
-			"ObjectPatternComma": 0,
-			"ObjectPatternOpeningBrace": 0,
+			"ObjectPatternComma": 1,
+			"ObjectPatternOpeningBrace": 1,
 			"Property": 0,
 			"PropertyName": 0,
 			"ReturnStatement": -1,
@@ -361,8 +361,8 @@
 			"VariableName": 1,
 			"VariableValue": 1,
 			"WhileStatementClosingBrace": 1,
-			"WhileStatementConditionalClosing": 0,
-			"WhileStatementConditionalOpening": 1,
+			"WhileStatementConditionalClosing": 1,
+			"WhileStatementConditionalOpening": 0,
 			"WhileStatementOpeningBrace": 1
 		},
 		"after": {
@@ -467,7 +467,7 @@
 			"VariableValue": 0,
 			"WhileStatementClosingBrace": 1,
 			"WhileStatementConditionalClosing": 1,
-			"WhileStatementConditionalOpening": 0,
+			"WhileStatementConditionalOpening": 1,
 			"WhileStatementOpeningBrace": 1
 		}
 	},
