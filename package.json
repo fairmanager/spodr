@@ -1,6 +1,6 @@
 {
   "name": "spodr",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Manage multi-npm-module projects easily",
   "main": "lib/app.js",
   "scripts": {
@@ -27,6 +27,7 @@
     "bluebird": "3.4.6",
     "chalk": "1.1.3",
     "cli-table": "0.3.1",
+    "del": "^3.0.0",
     "execa": "0.5.0",
     "fm-log": "4.4.0",
     "got": "6.6.3",
