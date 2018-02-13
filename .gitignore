@@ -4,5 +4,6 @@
 # NPM
 npm-debug.log*
 node_modules/
+package-lock*
 
 debug.txt
