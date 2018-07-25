@@ -35,5 +35,8 @@
     "minimist": "1.2.0",
     "rimraf": "2.5.4",
     "which": "1.2.12"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }
