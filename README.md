@@ -94,6 +94,8 @@ $ spodr status
 └────────────────────────────┴────────┴───────┴────────┴───────────┴─────────┴──────────┴─────────┘
 2017-09-06 16:41:23.854 [NOTICE] (app) Operation finished
 ```
+`spodr status` also calls `git fetch --all` in every repo to show you the latest stats against your remote.
+You can use `spodr status --skip-git` to *not* fetch the latest changes. `spodr peek` is an alias for that command.
 
 If you have any unpushed commits, you can push your entire work area using:
 
