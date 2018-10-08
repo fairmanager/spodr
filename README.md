@@ -5,13 +5,15 @@
 dev HEAD: [![Build Status (dev)](https://travis-ci.org/fairmanager/spodr.svg?branch=dev)](https://travis-ci.org/fairmanager/spodr)
 
 ## Introduction
-spodr is a utility to manage a work area that contains software projects that are usually:
+spodr is a utility to concurrently manage a work area that contains software projects that are usually:
 
 - using git
 - NodeJS-based
 - dependent upon each other
 
-spodr will take over common tasks like linking projects with each other or keeping code and dependencies up-to-date.
+These points are however optional. spodr respects non-NodeJS git checkouts or plain directories in the work area and applies tasks as appropriate.
+
+For NodeJS projects, spodr will take over common tasks like linking projects with each other and keeping dependencies up-to-date. For any git checkout, spodr will help with tasks like pulling and pushing commits.
 
 Note that spodr is somewhat opinionated. This is most apparent with the handling of git branches. spodr has the desire to always check out a branch named `dev`, if it exists, unless you're currently on a branch that is neither `dev` nor `master`.
 
@@ -94,6 +96,8 @@ $ spodr status
 └────────────────────────────┴────────┴───────┴────────┴───────────┴─────────┴──────────┴─────────┘
 2017-09-06 16:41:23.854 [NOTICE] (app) Operation finished
 ```
+`spodr status` also calls `git fetch --all` in every repo to show you the latest stats against your remote.
+You can use `spodr status --skip-git` to *not* fetch the latest changes. `spodr peek` is an alias for that command.
 
 If you have any unpushed commits, you can push your entire work area using:
 

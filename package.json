@@ -1,10 +1,11 @@
 {
   "name": "spodr",
-  "version": "4.3.1",
+  "version": "5.0.0",
   "description": "Manage multi-npm-module projects easily",
   "main": "lib/app.js",
   "scripts": {
-    "test": "eslint lib"
+    "lint": "eslint lib",
+    "test": "npm run lint"
   },
   "bin": {
     "spodr": "bin/spodr.js"
@@ -20,21 +21,21 @@
   "license": "MIT",
   "homepage": "https://github.com/fairmanager/spodr",
   "devDependencies": {
-    "eslint": "3.18.0"
+    "eslint": "5.5.0"
   },
   "dependencies": {
     "attempt-require": "1.0.0",
-    "bluebird": "3.4.6",
-    "chalk": "1.1.3",
+    "bluebird": "3.5.2",
+    "chalk": "2.4.1",
     "cli-table": "0.3.1",
-    "del": "^3.0.0",
-    "execa": "0.5.0",
-    "fm-log": "4.4.0",
-    "got": "6.6.3",
-    "lodash": "4.16.6",
+    "del": "3.0.0",
+    "execa": "1.0.0",
+    "fm-log": "4.4.3",
+    "got": "9.2.1",
+    "lodash": "4.17.11",
     "minimist": "1.2.0",
-    "rimraf": "2.5.4",
-    "which": "1.2.12"
+    "rimraf": "2.6.2",
+    "which": "1.3.1"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
