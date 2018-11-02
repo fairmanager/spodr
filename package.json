@@ -5,7 +5,7 @@
   "main": "lib/app.js",
   "scripts": {
     "lint": "eslint lib",
-    "test": "npm run lint"
+    "test": "npm run lint && nyc --reporter=html --reporter=text mocha --recursive --timeout 5000"
   },
   "bin": {
     "spodr": "bin/spodr.js"
@@ -21,7 +21,14 @@
   "license": "MIT",
   "homepage": "https://github.com/fairmanager/spodr",
   "devDependencies": {
-    "eslint": "5.5.0"
+    "chai": "4.1.2",
+    "chai-as-promised": "7.1.1",
+    "eslint": "5.5.0",
+    "mocha": "4.0.1",
+    "mockery": "^2.1.0",
+    "nyc": "11.3.0",
+    "sinon": "4.1.2",
+    "sinon-chai": "2.14.0"
   },
   "dependencies": {
     "attempt-require": "1.0.0",
