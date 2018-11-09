@@ -60,7 +60,7 @@ When providing `--pin-roots`, spodr ensures that the *root* project (the one tha
 
 When you don't provide `--pin-roots`, your root projects are still linked into every location in the dependency tree, where their version matches the requested semver range. This can lead to instances of your root projects being downloaded into the package cache, with versions differing from those in your work area. This commonly happens when you don't have all of your "own" packages in the work area.
 
-Usually, you want to provide `--pin-roots` whenever you install dependencies. **This might become the default in the final implementation.**
+Usually, you want to provide `--pin-roots` whenever you install dependencies. **This might become the default in the final implementation and will have to be disabled with `--no-pin-roots`.**
 
 #### Updating the cache
 
@@ -70,7 +70,15 @@ $ spodr install --update
 
 If you want to ensure you have all the latest versions of all dependencies, you can use `--update`. spodr will then ask the registry for every package again to see if newer versions are available and use those.
 
-You can also just delete parts or the entire package cache at any time and rebuild it from scratch.
+> You can also just delete parts or the entire package cache at any time and rebuild it from scratch.
+
+Note that others features may imply `--update`, as spodr has a very strong desire to ensure that all packages are always used at the most recent version possible. If you want to prevent a certain package version from being used, utilize version locking.
+
+#### Version Locking
+
+When spodr generates the dependency tree, you can instruct it to replace certain versions of packages with different versions, thus, *lock* the dependency into a given version.
+
+When you lock a version, it will be locked throughout the entire global dependency tree, regardless of the location it exists in.
 
 #### Key conflicts with common package managers
 
