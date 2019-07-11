@@ -109,7 +109,7 @@ To switch all checkouts to a specific branch, use `spodr checkout`:
 ```shell
 $ spodr checkout --master
 $ spodr checkout --branch=master
-``
+```
 
 ### Rare Tasks
 #### check
