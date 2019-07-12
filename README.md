@@ -19,7 +19,6 @@ Note that spodr is somewhat opinionated. This is most apparent with the handling
 
 ## Getting Started
 ### Preparing the Work Area
-#### Init
 
 To begin working with spodr, enter an empty folder that will become your work area and clone some of your existing projects.
 
@@ -37,7 +36,76 @@ When using your own GitLab server, you have to specify that with `--gitlab-host`
 
 spodr will check out the default branch as configured server-side. If you want to ensure that you get the `dev` branch, run `spodr update`.
 
-#### Linking
+### Dependency Installation
+
+First and foremost, the spodr dependency installation mechnism is **for development only**. Your production deployments still rely on npm or yarn.
+
+spodr can automatically download and install all dependencies of all packages referenced in the entire work area, without relying on external package managers.
+
+When doing so, spodr will always download the highest possible matching version declared as a dependency for each module in the entire tree. In that, it drastically differs from how npm and yarn treat a dependency tree, where there is a desire to deduplicate the tree as much as possible and utilize packages, lower on the tree, that have matching semver ranges. spodr doesn't care if there is a matching package, if the declared semver range would allow for a newer version of the dependency. It will then use the newer version at the deeper branch.
+
+spodr still massively benefits from deduplication, because it treats the entire work area as a single dependency tree.
+
+Additionally, spodr will maintain a package cache local to each work area. This is the cache from where every dependency is linked into the projects. The projects that you would previously link globally are, to maintain their connections, now linked through that cache and don't conflict with modules in other work areas.
+
+Once a package is cached, it is never copied. Every package is linked into the respective `node_modules` folders of each project as required.
+
+#### Root Pinning
+
+```shell
+$ spodr install --pin-roots
+```
+
+When providing `--pin-roots`, spodr ensures that the *root* project (the one that you have in your work area) is used throughout the entire dependency tree, regardless of any requested semver range. This replaces the previous `update --link --linkdep` operation, but is far more reliable, as consecutive `npm install` runs could break `node_modules` by replacing packages in linked projects.
+
+When you don't provide `--pin-roots`, your root projects are still linked into every location in the dependency tree, where their version matches the requested semver range. This can lead to instances of your root projects being downloaded into the package cache, with versions differing from those in your work area. This commonly happens when you don't have all of your "own" packages in the work area.
+
+Usually, you want to provide `--pin-roots` whenever you install dependencies. **This might become the default in the final implementation and will have to be disabled with `--no-pin-roots`.**
+
+#### Updating the cache
+
+```shell
+$ spodr install --update
+```
+
+If you want to ensure you have all the latest versions of all dependencies, you can use `--update`. spodr will then ask the registry for every package again to see if newer versions are available and use those.
+
+> You can also just delete parts or the entire package cache at any time and rebuild it from scratch.
+
+Note that others features may imply `--update`, as spodr has a very strong desire to ensure that all packages are always used at the most recent version possible. If you want to prevent a certain package version from being used, utilize version locking.
+
+#### Version Locking
+
+When spodr generates the dependency tree, you can instruct it to replace certain versions of packages with different versions, thus, *lock* the dependency into a given version.
+
+When you lock a version, it will be locked throughout the entire global dependency tree, regardless of the location it exists in.
+
+#### Key conflicts with common package managers
+
+1. Packages are **always** resolved to the highest possible version matching the semver range. This is true for the entire dependency tree.
+
+2. Packages are **never** copied, they are *linked* into `node_modules`.
+
+3. Because of 1. and 2., when a module requires another module by name, but the containing package did not declare that package as a dependency, it will never be found.
+   For example: Consider you're using `eslint` and you tell it to use `eslint-plugin-promise`, then `eslint` will `require( "eslint-plugin-promise" )`, but it will not find it, because `eslint-plugin-promise` is not a dependency of `eslint`.
+   spodr resolves this by applying some magic if it detects plugin architectures in the tree. It will then see which packages require both `eslint` *and* `eslint-plugin-promise` and register `eslint-plugin-promise` as a peer dependency of `eslint`.
+   In that process, spodr will detect which versions of the plugin and host were used and register the peer only for that combination.
+
+4. Because of 3., when you use a package that uses a package that uses a plugin, you can run into unexpected version conflicts, which you need to resolve manually.
+   For example: Consider you're using `gulp-plugin-eslint`, which will read your ESLint configuration and runs `eslint` for you. However, `gulp-plugin-eslint` could require a different version (or semver range) of `eslint` than your project.
+   Then `gulp-plugin-eslint` would use an `eslint` that doesn't have `eslint-plugin-promise`, because *that* is only linked with the version *you* are depending on (phew).
+   To resolve this, you can:
+
+   - clone a copy of `eslint` into your work area and use that throughout the entire work area (`--pin-roots`)
+   - use the exact same semver range for `eslint` that `gulp-plugin-eslint` declares.
+
+5. This also means that, if a package relies on having another package in the tree, but it does not explicitly declare this through a `peerDependency`, it will not be found.
+
+While these conflicts can be viewed as shortcomings, the opinion with which this dependency management was developed is that this way enforces stricter dependency declarations and that that is actually preferable.
+
+Also note that this behavior is dictated by the NodeJS module loader behavior. NodeJS always resolves modules to their actual path on disk, not the linked location (although this can apparently be controlled through the [`NODE_PRESERVE_SYMLINKS`](https://nodejs.org/api/cli.html#cli_node_preserve_symlinks_1) environment variable). For spodr maintained work areas, this is the location in the package cache. Because packages are stored in the cache with a hashed module name, they can never find any peers by name.
+
+### Linking (not recommended)
 
 > Warning: This can take a long time, as dependencies are usually installed during linking. However, trying to install all dependencies before linking will cause nasty issues down the line. If you plan on using linking, do it first. If you already have dependencies installed, delete them (`rm -rf */node_modules`) and start over.
 
@@ -57,7 +125,7 @@ We now make the modules available in the projects.
 $ spodr update --linkdep
 ```
 
-#### Dependencies
+### Dependencies (not recommended)
 
 > spodr uses `npm` by default. This can be adjusted by supplying `--yarn` if you want to use yarn instead.
 
@@ -69,7 +137,7 @@ $ spodr update --deps
 
 Whenever your dependency versions change, you can re-run the command to also install the new dependency versions.
 
-### Daily Tasks
+## Daily Tasks
 
 The daily routine starts by pulling all the latest changes into your local work area:
 
@@ -105,6 +173,12 @@ If you have any unpushed commits, you can push your entire work area using:
 $ spodr push
 ```
 
+To switch all checkouts to a specific branch, use `spodr checkout`:
+```shell
+$ spodr checkout --master
+$ spodr checkout --branch=master
+```
+
 ### Rare Tasks
 #### check
 ```shell
@@ -113,14 +187,14 @@ $ spodr check
 
 Check if any working directory in the work area is dirty.
 
-#### clean
+### clean
 ```shell
 $ spodr clean
 ```
 
 Runs `git clean` in every working directory.
 
-#### unartifact
+### unartifact
 ```shell
 $ spodr unartifact
 ```
