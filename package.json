@@ -1,6 +1,6 @@
 {
   "name": "spodr",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "description": "Manage multi-npm-module projects easily",
   "main": "lib/app.js",
   "scripts": {
