@@ -80,6 +80,73 @@ When spodr generates the dependency tree, you can instruct it to replace certain
 
 When you lock a version, it will be locked throughout the entire global dependency tree, regardless of the location it exists in.
 
+##### Example
+
+```json
+"locks": {
+	"chai-as-promised": {
+		"*": "5.3.0"
+	},
+	"eslint": {
+		"^5.8.0": "5.8.0"
+	},
+	"uglify-js": {
+		"^3.0.0": "3.4.8"
+	}
+}
+```
+
+This `.spodrlock.json` would cause all versions of `chai-as-promised` to be locked down to version 5.3.0. The versions of `eslint` and `uglify-js` would be replaced as well, if they'd match the given version ranges. Multiple version ranges could be defined for a module.
+
+#### Peering
+
+A module can request to find a *peer* dependency in the dependency tree. This means that, while it doesn't directly want to depend on a module, it wants to be able to find a module of the given name and version in the tree. Usually, this is produced by a depending module declaring the dependency itself. This mechanism is controlled through the `peerDependencies` in the `package.json`.
+
+This mechanism is important to resolve issues in other dependency managers. In spodr, you'd always want every single package to declare every single dependency it has. However, that is not being done, because people usually don't use spodr.
+
+When npm or yarn see a peer dependency being declared, they warn you if your package higher up in the tree doesn't depend on the requested package. If the package is depended upon, the package is installed high up in the tree and will be found through module resolution.
+
+When spodr sees a peer dependency being declared, it links the best possible version directly into the `node_modules` of the requesting package.
+
+Additionally, peering can be controlled through the `.spodrlock.json`. This is required when modules blindly assume a specific dependency tree structure and just `require()` a module by name, even through they neither directly or peer depend on it. This works in other package managers, because they register packages always as high up as possible in the isolated `node_modules` folder of every single module. spodr doesn't do that for performance reasons. So you have to declare a peering manually to ensure a given module is available as a dependency of another module.
+
+##### Example
+
+```json
+"peering": {
+	"eslint": {
+		"*": {
+			"^eslint-plugin-.*$": "*"
+		}
+	},
+	"karma": {
+		"*": {
+			"^karma-.*$": "*"
+		}
+	},
+	"karma-chai-as-promised": {
+		"0.1.2": {
+			"^chai-as-promised$": "5.3.0"
+		}
+	},
+	"karma-mocha": {
+		"~1.3.0": {
+			"^mocha$": "5.2.0"
+		}
+	}
+}
+```
+
+In this peering configuration, multiple dependency issues are being resolved:
+
+1. `eslint` will, in every version found in the tree, declare a dependency to every ESlint plugin (where the module name matches `^eslint-plugin-.*$`) in any version that is available. If a plugin is available in multiple versions, the first one found is selected. If that is undesireable, a more specific version map must be defined.
+
+2. A similar setup is being made for `karma`, so it can load Karma plugins by name.
+
+3. Because `chai-as-promised` can not be used in Karma in later versions, we're peering `karma-chai-as-promised` with `chai-as-promised` in version 5.3.0. Note that this can still not lead to the desire result. `karma-chai-as-promised` has an existing peer dependency configured that is satisfied by _any_ version of `chai-as-promised`. If that was already resolved, spodr will not replace it, unless you lock down the version through version locking (see above).
+
+4. `karma-mocha` in a specific version being used is also peered with `mocha` to allow it to load the dependency by name.
+
 #### Key conflicts with common package managers
 
 1. Packages are **always** resolved to the highest possible version matching the semver range. This is true for the entire dependency tree.

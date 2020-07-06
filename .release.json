@@ -8,7 +8,7 @@
 					"--patch",
 					"--no-commit"
 				],
-				"comment": "[TASK] Bump version"
+				"comment": "chore(release): Bump version"
 			}
 		]
 	},
@@ -21,7 +21,7 @@
 					"--minor",
 					"--no-commit"
 				],
-				"comment": "[TASK] Bump version"
+				"comment": "chore(release): Bump version"
 			}
 		]
 	},
@@ -34,7 +34,7 @@
 					"--major",
 					"--no-commit"
 				],
-				"comment": "[TASK] Bump version"
+				"comment": "chore(release): Bump version"
 			}
 		]
 	}

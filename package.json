@@ -1,6 +1,6 @@
 {
   "name": "spodr",
-  "version": "5.2.0",
+  "version": "5.2.1",
   "description": "Manage multi-npm-module projects easily",
   "main": "lib/app.js",
   "scripts": {
@@ -35,6 +35,7 @@
     "attempt-require": "1.0.0",
     "bluebird": "3.5.5",
     "chalk": "2.4.2",
+    "chmodr": "1.2.0",
     "cli-table": "0.3.1",
     "cmd-shim": "2.0.2",
     "del": "5.0.0",
